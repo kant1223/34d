@@ -1,0 +1,8 @@
+pip==23.1.1
+python-dotenv
+line-bot-sdk
+flask
+gunicorn
+pygsheets
+pandas
+nums_from_string
