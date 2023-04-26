@@ -200,9 +200,9 @@ def linebot():
         tk = json_data['events'][0]['replyToken']            # 取得回傳訊息的 Token
         print("取得回傳訊息的 Token")
         userid=json_data['events'][0]["source"]['userId']     #取得回傳訊息的 userId
-        print("取得回傳訊息的 userId")
-        line_bot_api = LineBotApi(os.getenv ("access_token"))
-        print("再次取得 token")
+        print("取得回傳訊息的 userId",type(userid),userid)
+   #     line_bot_api = LineBotApi(os.getenv ("access_token"))
+    #    print("再次取得 token")
         profile = line_bot_api.get_profile(userid)            #取得相關資訊(姓名,照片,個簽,id)
         print("取得個人包相關資訊")
         profile = str(profile)
@@ -262,12 +262,12 @@ def linebot():
         print("錯誤",body)                                          # 如果發生錯誤，印出收到的內容
     return 'OK'                 # 驗證 Webhook 使用，不能省略
 # if __name__ == "__main__":
-#     # app.run()
+#     app.run()
 #     port=port
-import os
-if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+# import os
+# if __name__ == "__main__":
+#     port = int(os.environ.get('PORT', 5000))
+#     app.run(host='0.0.0.0', port=port)
     
 
 
