@@ -7,8 +7,8 @@ Created on Fri Apr 21 11:20:15 2023
 """
 ######
 #要刪的東東
-# from dotenv import load_dotenv
-# load_dotenv()
+from dotenv import load_dotenv
+load_dotenv()
 ########
 from flask import Flask, request
 import json
@@ -132,8 +132,8 @@ for i in df.keys():
 
 
 
-
-
+access_token=os.getenv ("access_token")
+print(access_token)
 
 
 
@@ -144,15 +144,15 @@ app = Flask(__name__)
 
 @app.route("/", methods=['POST'])
 def linebot():
+    print("開始執行")
     body = request.get_data(as_text=True)                    # 取得收到的訊息內容
     
     try:
         json_data = json.loads(body)                         # json 格式化訊息內容
-        print("又來1")
         line_bot_api = LineBotApi(os.getenv ("access_token"))              # 確認 token 是否正確
-        print("又來2")
+        print("token正確")
         handler = WebhookHandler(os.getenv ("secret"))                     # 確認 secret 是否正確
-        print("又來3")
+        print("secret正確")
         try: 
             if json_data['events'][0]['type']=='unfollow':
                 x=[json_data['events'][0]['source']['userId'],
@@ -175,18 +175,18 @@ def linebot():
 
                 ws.set_dataframe(df1, 'A1', copy_index=True, nan='')
         except:
-            print("行號171")
+            pass
         json_data = json.loads(body)                         # json 格式化訊息內容
-        print("該死的行號176")
+
         line_bot_api = LineBotApi(os.getenv ("access_token"))              # 確認 token 是否正確
-        print("該死的行號178")
+
         handler = WebhookHandler(os.getenv ("secret"))                     # 確認 secret 是否正確
-        print("該死的行號180")
+
         tk = json_data['events'][0]['replyToken']            # 取得回傳訊息的 Token
-        print("該死的行號182")
+        print("執行到182了")
         userid=json_data['events'][0]["source"]['userId']     #取得回傳訊息的 userId
-        print("該死的行號182")
-        line_bot_api = LineBotApi(os.getenv ("access_token"))
+ #       print("環境變數有錯")
+       # line_bot_api = LineBotApi(os.getenv ("access_token"))
         profile = line_bot_api.get_profile(userid)            #取得相關資訊(姓名,照片,個簽,id)
         print("該死的行號186")
         profile = str(profile)
@@ -202,8 +202,8 @@ def linebot():
         #print("使用者姓名:",name,"\n使用者使用者id:",userid,"\n照片：",pictureUrl)
         signature = request.headers['X-Line-Signature']      # 加入回傳的 headers
         handler.handle(body, signature)                      # 綁定訊息回傳的相關資訊
-        print("json_data",json_data)
-        print("profile_date",profile_date)
+#        print("json_data",json_data)
+ #       print("profile_date",profile_date)
         #print("資料型態：")                                    #  line 回傳為回傳為格式是格式是str
         #m_type=json_data['events'][0]['message']['type']
         #print("m_type",m_type)
@@ -214,7 +214,7 @@ def linebot():
             m_type=json_data['events'][0]['message']['type']
             if m_type == "text":
                 msg = json_data['events'][0]['message']['text']      # 取得 LINE 收到的文字訊息
-                print("該死的行號226")
+        #        print("該死的行號226")
                 out_msg=TextSendMessage(name+menu)
                 
                 try:
@@ -233,23 +233,24 @@ def linebot():
             else:
                 out_msg=TextSendMessage(menu)
                 #print(menu)
-        print("該死的行號245")
-        fun.to_google_sheet(json_data,profile_date)
-        print("該死的行號247")
+        print("245/249快跑完了")
         line_bot_api.reply_message(tk,out_msg)# 回傳訊息
-        print("該死的行號249")
-        print("伺服器接收到的訊息:\n"+ msg + ",","\n使用者姓名：", name)                                       # 印出接收到的內容
-        print("伺服器傳送的訊息:\n"+ out_msg + ",","\n使用者姓名：", name)                        #輸出的訊息
+        print("已經回傳訊息")
+        fun.to_google_sheet(json_data,profile_date)
+        print("存檔完成")
+        
+        print("伺服器接收到的訊息:\n", msg ,"\n使用者姓名：", name)                                       # 印出接收到的內容
+        print("伺服器傳送的訊息:\n", out_msg ,"\n使用者姓名：", name)                        #輸出的訊息
     except:
         print("body",body)                                          # 如果發生錯誤，印出收到的內容
     return 'OK'                 # 驗證 Webhook 使用，不能省略
 # if __name__ == "__main__":
 #     # app.run()
 #     port=port
-#import os
-#if __name__ == "__main__":
- #   port = int(os.environ.get('PORT', 5000))
-  #  app.run(host='0.0.0.0', port=port)
+# import os
+# if __name__ == "__main__":
+#     port = int(os.environ.get('PORT', 5000))
+#     app.run(host='0.0.0.0', port=port)
     
 
 
