@@ -200,8 +200,9 @@ def linebot():
         tk = json_data['events'][0]['replyToken']            # 取得回傳訊息的 Token
         print("取得回傳訊息的 Token")
         userid=json_data['events'][0]["source"]['userId']     #取得回傳訊息的 userId
- #       print("環境變數有錯")
-  #      line_bot_api = LineBotApi(os.getenv ("access_token"))
+        print("取得回傳訊息的 userId")
+        line_bot_api = LineBotApi(os.getenv ("access_token"))
+        print("再次取得 token")
         profile = line_bot_api.get_profile(userid)            #取得相關資訊(姓名,照片,個簽,id)
         print("取得個人包相關資訊")
         profile = str(profile)
