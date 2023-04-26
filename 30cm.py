@@ -108,16 +108,16 @@ menu="""你好～目前輸入的格式可能有誤，麻煩你再確認一下呦
 
 
 
-x=open("v.txt","r")
-data = x.read()
-data_into_list = data.split("\n")
-x.close()
-y=fun.readdata(time.time(),data_into_list[1])
+# x=open("v.txt","r")
+# data = x.read()
+# data_into_list = data.split("\n")
+# x.close()
+# y=fun.readdata(time.time(),data_into_list[1])
 
-f=open("v.txt","w")
-data_into_list = [str(y[0])+"\n", str(y[1])]
-f.writelines(data_into_list)
-f.close()
+# f=open("v.txt","w")
+# data_into_list = [str(y[0])+"\n", str(y[1])]
+# f.writelines(data_into_list)
+# f.close()
 
 
 
@@ -132,8 +132,8 @@ for i in df.keys():
 
 
 
-access_token=os.getenv ("access_token")
-print(access_token)
+# access_token=os.getenv ("access_token")
+# print(access_token)
 
 
 
@@ -147,10 +147,25 @@ def linebot():
     print("開始執行")
     body = request.get_data(as_text=True)                    # 取得收到的訊息內容
     
+    
+    
+    x=open("v.txt","r")
+    data = x.read()
+    data_into_list = data.split("\n")
+    x.close()
+    y=fun.readdata(time.time(),data_into_list[1])
+
+    f=open("v.txt","w")
+    data_into_list = [str(y[0])+"\n", str(y[1])]
+    f.writelines(data_into_list)
+    f.close()
+
+    
     try:
         json_data = json.loads(body)                         # json 格式化訊息內容
         line_bot_api = LineBotApi(os.getenv ("access_token"))              # 確認 token 是否正確
         print("token正確")
+
         handler = WebhookHandler(os.getenv ("secret"))                     # 確認 secret 是否正確
         print("secret正確")
         try: 
@@ -183,12 +198,12 @@ def linebot():
         handler = WebhookHandler(os.getenv ("secret"))                     # 確認 secret 是否正確
 
         tk = json_data['events'][0]['replyToken']            # 取得回傳訊息的 Token
-        print("執行到182了")
+        print("取得回傳訊息的 Token")
         userid=json_data['events'][0]["source"]['userId']     #取得回傳訊息的 userId
  #       print("環境變數有錯")
-       # line_bot_api = LineBotApi(os.getenv ("access_token"))
+  #      line_bot_api = LineBotApi(os.getenv ("access_token"))
         profile = line_bot_api.get_profile(userid)            #取得相關資訊(姓名,照片,個簽,id)
-        print("該死的行號186")
+        print("取得個人包相關資訊")
         profile = str(profile)
 
         profile_date = json.loads(profile)                     #包裹轉字典
@@ -238,19 +253,20 @@ def linebot():
         print("已經回傳訊息")
         fun.to_google_sheet(json_data,profile_date)
         print("存檔完成")
-        
+        print("_____________________________________________________________")
         print("伺服器接收到的訊息:\n", msg ,"\n使用者姓名：", name)                                       # 印出接收到的內容
         print("伺服器傳送的訊息:\n", out_msg ,"\n使用者姓名：", name)                        #輸出的訊息
+        print("_____________________________________________________________")
     except:
-        print("body",body)                                          # 如果發生錯誤，印出收到的內容
+        print("錯誤",body)                                          # 如果發生錯誤，印出收到的內容
     return 'OK'                 # 驗證 Webhook 使用，不能省略
 # if __name__ == "__main__":
 #     # app.run()
 #     port=port
-# import os
-# if __name__ == "__main__":
-#     port = int(os.environ.get('PORT', 5000))
-#     app.run(host='0.0.0.0', port=port)
+import os
+if __name__ == "__main__":
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
     
 
 
