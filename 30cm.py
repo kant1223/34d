@@ -121,11 +121,11 @@ menu="""你好～目前輸入的格式可能有誤，麻煩你再確認一下呦
 
 
 
-df = pd.read_csv("mm.txt")
-df.index = [df.iloc[:,0]]  #自訂索引值columns = [df.iloc[:,1]]  #自訂欄位名稱
+# df = pd.read_csv("mm.txt")
+# df.index = [df.iloc[:,0]]  #自訂索引值columns = [df.iloc[:,1]]  #自訂欄位名稱
 
-for i in df.keys():
-    df[i]=df[i].apply(str)
+# for i in df.keys():
+#     df[i]=df[i].apply(str)
 
 
 #print(df,type(df))
@@ -159,6 +159,17 @@ def linebot():
     data_into_list = [str(y[0])+"\n", str(y[1])]
     f.writelines(data_into_list)
     f.close()
+    
+    
+    
+    df = pd.read_csv("mm.txt")
+    df.index = [df.iloc[:,0]]  #自訂索引值columns = [df.iloc[:,1]]  #自訂欄位名稱
+
+    for i in df.keys():
+        df[i]=df[i].apply(str)
+    
+    
+    
 
     
     try:
@@ -265,9 +276,9 @@ def linebot():
 #     app.run()
 #     port=port
 # import os
-# if __name__ == "__main__":
-#     port = int(os.environ.get('PORT', 5000))
-#     app.run(host='0.0.0.0', port=port)
+if __name__ == "__main__":
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
     
 
 
